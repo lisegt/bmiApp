@@ -2,4 +2,7 @@
     <string name="app_name">My BMI App</string>
     <string name="title_calculator">Calculator</string>
     <string name="title_history">History</string>
+
+    <string name="button_calculate">What's my BMI ?</string>
+    <string name="button_recalculate">Recalculate</string>
 </resources>
