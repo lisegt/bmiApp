@@ -66,8 +66,16 @@ class CalculatorFragment : Fragment() {
                 val toastHeight = Toast.makeText(context, getString(R.string.height_empty), Toast.LENGTH_SHORT)
                 toastHeight.show()
             } else {
-                //on convertit la taille en mètres
-                heightUser = height.text.toString().toDouble() / 100
+                var testTypeHeight = height.text.toString().toDoubleOrNull()
+                //on vérifie si l'utilisateur a rentré un nombre
+                //si ce n'est pas un nombre, on affiche un toast
+                if (testTypeHeight == null){
+                    val toastHeightError = Toast.makeText(context, getString(R.string.height_type_error), Toast.LENGTH_SHORT)
+                    toastHeightError.show()
+                } else {
+                    //si c'est un nombre, on convertit la taille en mètres
+                    heightUser = height.text.toString().toDouble() / 100
+                }
             }
 
             //si l'utilisateur n'a pas rentré son poids, on affiche un toast
@@ -75,24 +83,33 @@ class CalculatorFragment : Fragment() {
                 val toastWeight = Toast.makeText(context, getString(R.string.weight_empty), Toast.LENGTH_SHORT)
                 toastWeight.show()
             } else {
-                weightUser = weight.text.toString().toDouble()
+                var testTypeWeight = weight.text.toString().toDoubleOrNull()
+                //si le poids rentré n'est pas un nombre, on affiche un toast
+                if (testTypeWeight == null){
+                    val toastWeightError = Toast.makeText(context, getString(R.string.weight_type_error), Toast.LENGTH_SHORT)
+                    toastWeightError.show()
+                } else {
+                    weightUser = weight.text.toString().toDouble()
+                }
             }
 
             if (weightUser > 0.0 && heightUser > 0.0){
                 //on arrondit le résultat à 1 décimale
                 var bmiUser = (weightUser / heightUser.pow(2) * 10.0).roundToInt() / 10.0
                 bmi.text = bmiUser.toString()
+
+                //on modifie les élements affichés
                 message_welcome.text = getString(R.string.bmi_calculated_message)
                 bmi.visibility = View.VISIBLE
                 recalculateButton.visibility = View.VISIBLE
                 calculateButton.visibility = View.GONE
             }
         }
-
+        //si on veut recalculer un nouvel IMC, on doit vider les champs d'input en cliquant sur le bouton recalculate
         recalculateButton.setOnClickListener(){
 
             message_welcome.text = getString(R.string.welcome)
-            //on vide les champs d'input
+            //on réinitialise les champs d'input
             height.text.clear()
             weight.text.clear()
 
