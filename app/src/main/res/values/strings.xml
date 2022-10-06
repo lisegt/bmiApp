@@ -3,6 +3,17 @@
     <string name="title_calculator">Calculator</string>
     <string name="title_history">History</string>
 
-    <string name="button_calculate">What's my BMI ?</string>
+    //Page calculator
+    <string name="welcome">Welcome, let\'s calculate your BMI !</string>
+    <string name="bmi_calculated_message">Here is your BMI !</string>
+
+    <string name="label_weight">Weight (kg)</string>
+    <string name="label_height">Height (cm)</string>
+
+    <string name="weight_empty">Ooops, you may enter your weight !</string>
+    <string name="height_empty">Ooops, you may enter your height !</string>
+    <string name="button_calculate">What\'s my BMI ?</string>
     <string name="button_recalculate">Recalculate</string>
+
+    //Page history
 </resources>
