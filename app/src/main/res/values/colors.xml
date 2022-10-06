@@ -13,4 +13,14 @@
     <color name="bleu_gris">#B1BAC7</color>
     <color name="bleu_canard">#2A4E62</color>
     <color name="marine">#001C2F</color>
+
+    //colors progress bar
+    <color name="middle_blue_PB">#2362B0</color>
+    <color name="light_blue_PB">#43A3DB</color>
+    <color name="very_light_blue_PB">#62B0B3</color>
+    <color name="green_PB">#A1C740</color>
+    <color name="yellow_PB">#FEE552</color>
+    <color name="orange_PB">#EC781D</color>
+    <color name="light_red_PB">#720019</color>
+    <color name="dark_red_PB">#4F0002</color>
 </resources>
