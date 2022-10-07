@@ -1,5 +1,7 @@
 package com.example.mybmiapp.ui.calculator
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.mybmiapp.R
 import com.example.mybmiapp.databinding.FragmentCalculatorBinding
-import com.google.android.material.color.MaterialColors.getColor
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -66,6 +67,9 @@ class CalculatorFragment : Fragment() {
         bmi.visibility = View.GONE
         bmiStatus.visibility = View.GONE
 
+        //on affiche les dernières données sauvegardées
+        loadLastInput(height,weight)
+
         calculateButton.setOnClickListener(){
             var weightUser = 0.0
             var heightUser = 0.0
@@ -94,13 +98,16 @@ class CalculatorFragment : Fragment() {
                 toastWeight.show()
             } else {
                 var testTypeWeight = weight.text.toString().toDoubleOrNull()
+
+                /*
                 //si le poids rentré n'est pas un nombre, on affiche un toast
+                // inutile si on restreint le type d'entrée utilisateur à un nombre décimal
                 if (testTypeWeight == null){
                     val toastWeightError = Toast.makeText(context, getString(R.string.weight_type_error), Toast.LENGTH_SHORT)
                     toastWeightError.show()
-                } else {
+                } else { }*/
                     weightUser = weight.text.toString().toDouble()
-                }
+
             }
 
             if (weightUser > 0.0 && heightUser > 0.0){
@@ -131,6 +138,10 @@ class CalculatorFragment : Fragment() {
                         }
                     }
                 }
+
+                //on sauvegarde les dernières données enregistrées
+                saveLastInput(height, weight)
+
                 //on affiche la progress bar
                 progressBar.visibility = View.VISIBLE
 
@@ -147,12 +158,11 @@ class CalculatorFragment : Fragment() {
         recalculateButton.setOnClickListener(){
 
             message_welcome.text = getString(R.string.welcome)
-            //on réinitialise les champs d'input
-            height.text.clear()
-            weight.text.clear()
 
             //on remet la progress bar à 0
             progressBar.progress = 0f
+
+            //on modifie l'affichage
             progressBar.visibility = View.GONE
             calculateButton.visibility = View.VISIBLE
             bmi.visibility = View.GONE
@@ -177,6 +187,34 @@ class CalculatorFragment : Fragment() {
             // Other
             roundBorder = true
         }
+
+
+    }
+
+    private fun saveLastInput(height : EditText, weight:EditText){
+        //on récupère les valeurs entrées par l'utilisateur
+        val lastHeight = height.text.toString()
+        val lastWeight = weight.text.toString()
+
+        val sharedPreferences : SharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
+        val editor = sharedPreferences.edit()
+        //on les sauvegarde
+        editor.apply(){
+            putString("HEIGHT_KEY", lastHeight)
+            putString("WEIGHT_KEY", lastWeight)
+        }.apply()
+    }
+
+    private fun loadLastInput(height : EditText, weight : EditText){
+        val sharedPreferences : SharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
+
+        //on récupère les valeurs sauvegardées
+        val savedHeight = sharedPreferences.getString("HEIGHT_KEY", null)
+        val savedWeight = sharedPreferences.getString("WEIGHT_KEY", null)
+
+        //on préeremplit les entrées utilisateur
+        height.setText(savedHeight)
+        weight.setText(savedWeight)
     }
 
     override fun onDestroyView() {
