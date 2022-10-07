@@ -30,8 +30,7 @@ class CalculatorFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        savedInstanceState: Bundle?): View {
         val calculatorViewModel =
             ViewModelProvider(this).get(CalculatorViewModel::class.java)
 
@@ -74,52 +73,23 @@ class CalculatorFragment : Fragment() {
             var weightUser = 0.0
             var heightUser = 0.0
 
-            //écrire une fonction validateInput qui va être réutilisée
-            //si l'utilisateur n'a pas rentré sa taille, on affiche un toast
-            if ((height.text.toString().isEmpty())){
-                val toastHeight = Toast.makeText(context, getString(R.string.height_empty), Toast.LENGTH_SHORT)
-                toastHeight.show()
-            } else {
-                var testTypeHeight = height.text.toString().toDoubleOrNull()
-                //on vérifie si l'utilisateur a rentré un nombre
-                //si ce n'est pas un nombre, on affiche un toast
-                if (testTypeHeight == null){
-                    val toastHeightError = Toast.makeText(context, getString(R.string.height_type_error), Toast.LENGTH_SHORT)
-                    toastHeightError.show()
-                } else {
-                    //si c'est un nombre, on convertit la taille en mètres
-                    heightUser = height.text.toString().toDouble() / 100
-                }
-            }
+            //si toutes les entrées utilisateurs sont valides
+            if (checkInput(height, weight)){
+                weightUser = weight.text.toString().toDouble()
+                //on convertit la taille en mètres
+                heightUser = height.text.toString().toDouble() / 100
 
-            //si l'utilisateur n'a pas rentré son poids, on affiche un toast
-            if (weight.text.toString().isEmpty()){
-                val toastWeight = Toast.makeText(context, getString(R.string.weight_empty), Toast.LENGTH_SHORT)
-                toastWeight.show()
-            } else {
-                var testTypeWeight = weight.text.toString().toDoubleOrNull()
-
-                /*
-                //si le poids rentré n'est pas un nombre, on affiche un toast
-                // inutile si on restreint le type d'entrée utilisateur à un nombre décimal
-                if (testTypeWeight == null){
-                    val toastWeightError = Toast.makeText(context, getString(R.string.weight_type_error), Toast.LENGTH_SHORT)
-                    toastWeightError.show()
-                } else { }*/
-                    weightUser = weight.text.toString().toDouble()
-
-            }
-
-            if (weightUser > 0.0 && heightUser > 0.0){
                 //on arrondit le résultat à 1 décimale
                 var bmiUser = (weightUser / heightUser.pow(2) * 10.0).roundToInt() / 10.0
                 bmi.text = bmiUser.toString()
+                //on admet que la progress bar est pleine si le bmi atteint 40
                 progressValue = bmiUser.toFloat()*100/40
 
                 // Set Progress
                 progressBar.setProgressWithAnimation(progressValue, 1000)
+
                 //équivalent d'un switch case en java
-                //on modifier la couleur de la progress bar en fonction de la valeur du BMI
+                //on modifie la couleur de la progress bar et la catégorie en fonction de la valeur du BMI
                 when (bmiUser) {
                     in 16.0..16.9 -> {progressBar.progressBarColor = Color.rgb(67,163,219) ; bmiStatus.text = "Underweight \n(Moderate thinness) " }
                     in 17.0..18.4 -> {progressBar.progressBarColor = Color.rgb(98,176,179) ; bmiStatus.text = "Underweight \n(Mild thinness)" }
@@ -138,7 +108,6 @@ class CalculatorFragment : Fragment() {
                         }
                     }
                 }
-
                 //on sauvegarde les dernières données enregistrées
                 saveLastInput(height, weight)
 
@@ -191,6 +160,52 @@ class CalculatorFragment : Fragment() {
 
     }
 
+    //fonction qui vérifie la validité des entrées utilisateur
+    private fun checkInput(height: EditText, weight: EditText) : Boolean{
+        val height_string = height.text.toString()
+        val weight_string = weight.text.toString()
+
+        val testTypeHeight = height.text.toString().toDoubleOrNull()
+        val testTypeWeight = weight.text.toString().toDoubleOrNull()
+        return when {
+            //si l'utilisateur n'a pas rentré sa taille ou son poids, on affiche un toast
+            height_string.isEmpty() -> {
+                Toast.makeText(context, getString(R.string.height_empty), Toast.LENGTH_SHORT).show()
+                return false
+            }
+            weight_string.isEmpty() -> {
+                Toast.makeText(context, getString(R.string.weight_empty), Toast.LENGTH_SHORT).show()
+                return false
+            }
+
+            //si l'utilisateur n'a pas rentré un nombre, on affiche un toast
+            //le toast ne devrait jamais apparaître car on a restreint le type de l'EditText à un nombre décimal
+            testTypeHeight == null -> {
+                Toast.makeText(context, getString(R.string.height_type_error), Toast.LENGTH_SHORT).show()
+                return false
+            }
+            testTypeWeight == null -> {
+                Toast.makeText(context, getString(R.string.weight_type_error), Toast.LENGTH_SHORT).show()
+                return false
+            }
+
+            //si l'utilisateur a rentré un nombre négatif, on affiche un toast
+            //le toast ne devrait jamais apparaître car on a restreint le type de l'EditText à un nombre décimal, non signé
+            (height_string.toDouble() <= 0.0) -> {
+                Toast.makeText(context, getString(R.string.height_negative), Toast.LENGTH_SHORT).show()
+                return false
+            }
+            (weight_string.toDouble() <= 0.0) -> {
+                Toast.makeText(context, getString(R.string.weight_negative), Toast.LENGTH_SHORT).show()
+                return false
+            }
+            else -> {
+                return true
+            }
+        }
+    }
+
+    //fonction qui sauvegarde les derniers input
     private fun saveLastInput(height : EditText, weight:EditText){
         //on récupère les valeurs entrées par l'utilisateur
         val lastHeight = height.text.toString()
@@ -205,6 +220,7 @@ class CalculatorFragment : Fragment() {
         }.apply()
     }
 
+    //fonction qui charge les derniers input
     private fun loadLastInput(height : EditText, weight : EditText){
         val sharedPreferences : SharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
 
@@ -212,7 +228,7 @@ class CalculatorFragment : Fragment() {
         val savedHeight = sharedPreferences.getString("HEIGHT_KEY", null)
         val savedWeight = sharedPreferences.getString("WEIGHT_KEY", null)
 
-        //on préeremplit les entrées utilisateur
+        //on préremplit les entrées utilisateur
         height.setText(savedHeight)
         weight.setText(savedWeight)
     }
