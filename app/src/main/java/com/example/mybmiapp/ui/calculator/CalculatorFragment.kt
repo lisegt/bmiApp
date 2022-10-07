@@ -70,6 +70,7 @@ class CalculatorFragment : Fragment() {
             var weightUser = 0.0
             var heightUser = 0.0
 
+            //écrire une fonction validateInput qui va être réutilisée
             //si l'utilisateur n'a pas rentré sa taille, on affiche un toast
             if ((height.text.toString().isEmpty())){
                 val toastHeight = Toast.makeText(context, getString(R.string.height_empty), Toast.LENGTH_SHORT)
@@ -123,10 +124,10 @@ class CalculatorFragment : Fragment() {
                         if (bmiUser < 16.0){
                             // Set ProgressBar Color
                             progressBar.progressBarColor = Color.rgb(35,98,176)
-                            bmiStatus.text = "Obese (Class III)"
+                            bmiStatus.text = "Underweight \n" + "(Severe thinness)"
                         } else {
                             progressBar.progressBarColor = Color.rgb(114,0,25)
-                            bmiStatus.text = "Underweight \n(Severe thinness)"
+                            bmiStatus.text = "Obese (Class III)"
                         }
                     }
                 }
@@ -165,8 +166,8 @@ class CalculatorFragment : Fragment() {
             progressMax = 100f
 
             // Set background ProgressBar Color
-            backgroundProgressBarColorStart = Color.rgb(35,98,176)
-            backgroundProgressBarColorEnd = Color.rgb(114,0,25)
+            backgroundProgressBarColorStart = Color.argb(80, 35,98,176)
+            backgroundProgressBarColorEnd = Color.argb(80,114,0,25)
             backgroundProgressBarColorDirection = CircularProgressBar.GradientDirection.RIGHT_TO_LEFT
 
             // Set Width
