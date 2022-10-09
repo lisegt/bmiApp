@@ -13,8 +13,4 @@ interface BmiDao {
     //requête pour ajouter un BMI
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addBmi(bmi: Bmi)
-
-    //requête pour supprimer un BMI
-    @Delete
-    suspend fun deleteBMI(bmi: Bmi)
 }
