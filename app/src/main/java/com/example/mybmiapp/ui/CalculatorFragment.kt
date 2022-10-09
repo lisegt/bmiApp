@@ -1,4 +1,4 @@
-package com.example.mybmiapp.ui.calculator
+package com.example.mybmiapp.ui
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -12,7 +12,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.mybmiapp.R
 import com.example.mybmiapp.databinding.FragmentCalculatorBinding
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
@@ -31,18 +30,8 @@ class CalculatorFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View {
-        val calculatorViewModel =
-            ViewModelProvider(this).get(CalculatorViewModel::class.java)
-
         _binding = FragmentCalculatorBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textCalculator
-        calculatorViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

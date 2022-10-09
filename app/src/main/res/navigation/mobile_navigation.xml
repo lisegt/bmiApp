@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_calculator"
-        android:name="com.example.mybmiapp.ui.calculator.CalculatorFragment"
+        android:name="com.example.mybmiapp.ui.CalculatorFragment"
         android:label="@string/title_calculator"
         tools:layout="@layout/fragment_calculator" />
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.example.mybmiapp.ui.history.HistoryFragment"
+        android:name="com.example.mybmiapp.ui.HistoryFragment"
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history" />
 </navigation>
