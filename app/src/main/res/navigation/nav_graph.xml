@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/UsersFragment">
+
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.example.mybmicalculator.ui.calculator.FirstFragment"
+        android:label="@string/title_calculator"
+        tools:layout="@layout/fragment_first">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_UsersFragment"
+            app:destination="@id/UsersFragment" />
+        <argument
+            android:name="currentUser"
+            app:argType="com.example.mybmicalculator.data.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/SecondFragment"
+        android:name="com.example.mybmicalculator.ui.history.SecondFragment"
+        android:label="@string/title_history"
+        tools:layout="@layout/fragment_second">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_SecondFragment_to_UsersFragment"
+            app:destination="@id/UsersFragment" />
+        <argument
+            android:name="currentUserSecond"
+            app:argType="com.example.mybmicalculator.data.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/UsersFragment"
+        android:name="com.example.mybmicalculator.ui.users.UsersFragment"
+        android:label="@string/title_users"
+        tools:layout="@layout/fragment_users" >
+        <action
+            android:id="@+id/action_UsersFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_UsersFragment_to_addUserFragment"
+            app:destination="@id/addUserFragment" />
+        <action
+            android:id="@+id/action_UsersFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addUserFragment"
+        android:name="com.example.mybmicalculator.ui.users.AddUserFragment"
+        android:label="@string/title_add_user"
+        tools:layout="@layout/fragment_add_user" >
+        <action
+            android:id="@+id/action_addUserFragment_to_UsersFragment"
+            app:destination="@id/UsersFragment" />
+    </fragment>
+</navigation>
