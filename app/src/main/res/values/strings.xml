@@ -2,6 +2,8 @@
     <string name="app_name">My BMI App</string>
     <string name="title_calculator">Calculator</string>
     <string name="title_history">History</string>
+    <string name="title_users">Users</string>
+    <string name="title_add_user">Add A User</string>
 
     //Page calculator
     <string name="welcome">Welcome, let\'s calculate your BMI !</string>
@@ -17,8 +19,24 @@
     <string name="weight_negative">Ooops, weight may be positive !</string>
     <string name="height_negative">Ooops, height may be positive !</string>
 
+    <string name="first_name_empty">Ooops, you may enter your first name !</string>
+    <string name="last_name_empty">Ooops, you may enter your last name !</string>
+
     <string name="button_calculate">What\'s my BMI ?</string>
     <string name="button_recalculate">Recalculate</string>
 
-    //Page history
+    <string name="first_fragment_label">Calculator</string>
+    <string name="second_fragment_label">History</string>
+
+    //BMI status
+    <string name="underweight_severe">Underweight\n(Severe thinness)</string>
+    <string name="underweight_moderate">Underweight\n(Moderate thinness)</string>
+    <string name="underweight_mild">Underweight\n(Mild thinness)</string>
+    <string name="normal_range">Normal Range</string>
+    <string name="overweight">Overweight\n(Pre-obese)</string>
+    <string name="obese_1">Obese\n(Class I)</string>
+    <string name="obese_2">Obese\n(Class II)</string>
+    <string name="obese_3">Obese\n(Class III)</string>
+
+
 </resources>
